@@ -7,6 +7,7 @@ POWERGRID Python application and V2 ML pipeline.
 """
 
 from typing import Any
+from concurrent.futures import ThreadPoolExecutor
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -43,6 +44,8 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",
         "http://127.0.0.1:5173",
+        "http://localhost:5174",
+        "http://127.0.0.1:5174",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -556,20 +559,15 @@ def root() -> dict[str, str]:
 @app.get("/api/projects")
 def project_list() -> Any:
     """
-    Return the complete POWERGRID project portfolio.
+    Return the complete POWERGRID project portfolio with
+    full V2 analysis and prediction data.
 
-    The application service provides the validated project
-    list. Each project is passed through the existing
-    analysis layer so the frontend can receive project
-    intelligence from the real Python backend.
+    Project analyses are evaluated concurrently so the
+    endpoint remains responsive on deployment.
     """
 
     try:
         projects = get_projects()
-
-        # ----------------------------------------------------
-        # Convert pandas DataFrame to records if necessary.
-        # ----------------------------------------------------
 
         if hasattr(projects, "to_dict"):
             records = projects.to_dict(
@@ -578,11 +576,7 @@ def project_list() -> Any:
         else:
             records = projects
 
-        result = []
-
-        # ----------------------------------------------------
-        # Analyze every project.
-        # ----------------------------------------------------
+        project_codes = []
 
         for record in records:
 
@@ -591,52 +585,53 @@ def project_list() -> Any:
                     "project_code",
                     "",
                 )
-            )
+            ).strip()
 
-            if not project_code:
-                continue
-
-            try:
-
-                analysis = analyze_project(
+            if project_code:
+                project_codes.append(
                     project_code
                 )
 
-                if analysis is not None:
+        # ----------------------------------------------------
+        # Analyze projects concurrently.
+        # ----------------------------------------------------
 
-                    result.append(
-                        analysis
-                    )
+        def analyze_one(
+            project_code: str,
+        ) -> Any:
 
-                else:
-
-                    result.append(
-                        {
-                            "project_code": project_code,
-                            "project_name": record.get(
-                                "project_name",
-                                project_code,
-                            ),
-                        }
-                    )
-
-            except Exception as project_error:
-
-                # Keep the project in the response even if
-                # one individual project has an analysis error.
-
-                result.append(
-                    {
-                        "project_code": project_code,
-                        "project_name": record.get(
-                            "project_name",
-                            project_code,
-                        ),
-                        "analysis_error": str(
-                            project_error
-                        ),
-                    }
+            try:
+                return analyze_project(
+                    project_code
                 )
+
+            except Exception as exc:
+
+                return {
+                    "project_code":
+                        project_code,
+                    "analysis_error":
+                        str(exc),
+                }
+
+        max_workers = min(
+            8,
+            max(
+                1,
+                len(project_codes),
+            ),
+        )
+
+        with ThreadPoolExecutor(
+            max_workers=max_workers
+        ) as executor:
+
+            result = list(
+                executor.map(
+                    analyze_one,
+                    project_codes,
+                )
+            )
 
         return result
 
@@ -649,7 +644,7 @@ def project_list() -> Any:
                 f"{exc}"
             ),
         ) from exc
-
+         
 
 # ============================================================
 # PROJECT DETAILS
