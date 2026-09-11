@@ -1,0 +1,8 @@
+feature,normal_mean,risk_mean,normal_median,risk_median
+original_cost_cr,1530.008125,4279.5,1086.775,4754.42
+cumulative_expenditure_cr,764.9503125000001,5713.646,448.78499999999997,5577.75
+physical_progress_pct,62.161093750000006,90.93999999999998,84.96,94.1
+planned_duration_months,25.3125,39.4,24.0,48.0
+elapsed_months,27.078125,110.4,25.0,126.0
+months_to_original_target,-1.765625,-71.0,-2.0,-78.0
+expenditure_pct_of_original_cost,56.67808548751664,132.8255370801673,70.02400690785339,121.80552220888354

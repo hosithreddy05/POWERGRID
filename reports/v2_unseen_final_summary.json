@@ -1,0 +1,49 @@
+{
+    "version": "V2",
+    "synthetic_data": false,
+    "pdf_rows_appended": false,
+    "v1_modified": false,
+    "test_projects": 23,
+    "cost_model": {
+        "algorithm": "RandomForest",
+        "features": [
+            "original_cost_cr",
+            "cumulative_expenditure_cr",
+            "physical_progress_pct",
+            "planned_duration_months",
+            "elapsed_months",
+            "months_to_original_target",
+            "expenditure_pct_of_original_cost",
+            "progress_velocity",
+            "expenditure_velocity",
+            "expenditure_progress_gap",
+            "schedule_slippage_months",
+            "project_category"
+        ],
+        "test_mae": 2.1853766656612366,
+        "test_rmse": 6.908330196794372,
+        "test_r2": -0.6075460579627641,
+        "project_mae": 2.510498614339602
+    },
+    "schedule_model": {
+        "algorithm": "ExtraTrees",
+        "features": [
+            "original_cost_cr",
+            "cumulative_expenditure_cr",
+            "physical_progress_pct",
+            "planned_duration_months",
+            "elapsed_months",
+            "months_to_original_target",
+            "expenditure_pct_of_original_cost",
+            "progress_velocity",
+            "expenditure_velocity",
+            "expenditure_progress_gap",
+            "schedule_slippage_months",
+            "project_category"
+        ],
+        "test_mae": 2.2454036998451286,
+        "test_rmse": 3.0522197662784483,
+        "test_r2": 0.9427904306543731,
+        "project_mae": 2.267653255204972
+    }
+}

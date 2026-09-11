@@ -1,0 +1,4 @@
+cost_risk_level,projects,average_risk_score,average_actual_overrun,maximum_actual_overrun,actual_overrun_projects
+HIGH,1,75.0,36.45871626134546,36.45871626134546,1
+LOW,20,2.5,0.0,0.0,0
+MEDIUM,2,35.0,0.0,0.0,0

@@ -1,0 +1,47 @@
+{
+    "version": "V2",
+    "status": "FINAL",
+    "synthetic_data": false,
+    "pdf_rows_appended": false,
+    "test_data_used_for_training": false,
+    "v1_models_overwritten": false,
+    "cost_model": {
+        "algorithm": "RandomForestRegressor",
+        "n_estimators": 300,
+        "min_samples_leaf": 3,
+        "random_state": 42,
+        "target": "target_cost_overrun_pct"
+    },
+    "schedule_model": {
+        "algorithm": "ExtraTreesRegressor",
+        "n_estimators": 300,
+        "min_samples_leaf": 3,
+        "random_state": 42,
+        "target": "target_schedule_overrun_months"
+    },
+    "features": {
+        "numerical": [
+            "original_cost_cr",
+            "cumulative_expenditure_cr",
+            "physical_progress_pct",
+            "planned_duration_months",
+            "elapsed_months",
+            "months_to_original_target",
+            "expenditure_pct_of_original_cost",
+            "progress_velocity",
+            "expenditure_velocity",
+            "expenditure_progress_gap",
+            "schedule_slippage_months"
+        ],
+        "categorical": [
+            "project_category"
+        ],
+        "total": 12
+    },
+    "training_data": {
+        "cost_rows": 493,
+        "cost_projects": 69,
+        "schedule_rows": 474,
+        "schedule_projects": 68
+    }
+}

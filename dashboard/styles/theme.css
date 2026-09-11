@@ -1,0 +1,426 @@
+/* ============================================================
+   SIH 25192 - POWERGRID INTELLIGENCE
+   Global Dashboard Theme
+   ============================================================ */
+
+:root {
+
+    /* --------------------------------------------------------
+       CORE
+       -------------------------------------------------------- */
+
+    --bg-main: #07111F;
+    --bg-sidebar: #091827;
+    --bg-card: #0D1B2A;
+    --bg-card-hover: #12263A;
+
+    --border: #1C334A;
+    --border-light: #28445D;
+
+    /* --------------------------------------------------------
+       BRAND / ACCENT
+       -------------------------------------------------------- */
+
+    --primary: #1683FF;
+    --primary-soft: #123E68;
+
+    --cyan: #28C7D9;
+
+    /* --------------------------------------------------------
+       SEMANTIC
+       -------------------------------------------------------- */
+
+    --success: #25C281;
+    --warning: #F5B942;
+    --danger: #FF5C68;
+
+    /* --------------------------------------------------------
+       TEXT
+       -------------------------------------------------------- */
+
+    --text-primary: #F4F8FC;
+    --text-secondary: #9EB0C2;
+    --text-muted: #667C91;
+
+    /* --------------------------------------------------------
+       SHADOW
+       -------------------------------------------------------- */
+
+    --shadow:
+        0 12px 35px rgba(0, 0, 0, 0.25);
+
+    /* --------------------------------------------------------
+       RADIUS
+       -------------------------------------------------------- */
+
+    --radius-lg: 18px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+}
+
+
+/* ============================================================
+   GLOBAL
+   ============================================================ */
+
+html,
+body,
+[data-testid="stAppViewContainer"] {
+
+    background:
+        var(--bg-main) !important;
+
+    color:
+        var(--text-primary);
+}
+
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+
+[data-testid="stMainBlockContainer"] {
+
+    max-width: 1500px;
+
+    padding-top: 2rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+}
+
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+
+[data-testid="stSidebar"] {
+
+    background:
+        var(--bg-sidebar) !important;
+
+    border-right:
+        1px solid var(--border);
+}
+
+
+/* ============================================================
+   SIDEBAR TEXT
+   ============================================================ */
+
+[data-testid="stSidebar"] * {
+
+    color:
+        var(--text-primary);
+}
+
+
+/* ============================================================
+   HEADINGS
+   ============================================================ */
+
+h1 {
+
+    font-size: 2.4rem !important;
+
+    font-weight: 700 !important;
+
+    letter-spacing: -0.03em;
+}
+
+
+h2 {
+
+    font-size: 1.45rem !important;
+
+    font-weight: 650 !important;
+}
+
+
+h3 {
+
+    font-size: 1.1rem !important;
+
+    font-weight: 600 !important;
+}
+
+
+/* ============================================================
+   CARD
+   ============================================================ */
+
+.dashboard-card {
+
+    background:
+        var(--bg-card);
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        var(--radius-lg);
+
+    padding:
+        1.35rem;
+
+    box-shadow:
+        var(--shadow);
+
+    transition:
+        transform 0.18s ease,
+        border-color 0.18s ease,
+        background 0.18s ease;
+}
+
+
+.dashboard-card:hover {
+
+    transform:
+        translateY(-3px);
+
+    background:
+        var(--bg-card-hover);
+
+    border-color:
+        var(--border-light);
+}
+
+
+/* ============================================================
+   METRIC CARD
+   ============================================================ */
+
+.metric-label {
+
+    color:
+        var(--text-secondary);
+
+    font-size:
+        0.82rem;
+
+    font-weight:
+        600;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        0.08em;
+}
+
+
+.metric-value {
+
+    color:
+        var(--text-primary);
+
+    font-size:
+        2.15rem;
+
+    font-weight:
+        750;
+
+    line-height:
+        1.15;
+
+    margin-top:
+        0.4rem;
+}
+
+
+.metric-description {
+
+    color:
+        var(--text-muted);
+
+    font-size:
+        0.82rem;
+
+    margin-top:
+        0.35rem;
+}
+
+
+/* ============================================================
+   STATUS DOT
+   ============================================================ */
+
+.status-dot {
+
+    display:
+        inline-block;
+
+    width:
+        8px;
+
+    height:
+        8px;
+
+    border-radius:
+        50%;
+
+    margin-right:
+        7px;
+
+    background:
+        var(--success);
+
+    box-shadow:
+        0 0 10px rgba(37, 194, 129, 0.5);
+}
+
+
+/* ============================================================
+   RISK BADGES
+   ============================================================ */
+
+.risk-high {
+
+    color:
+        var(--danger);
+
+    background:
+        rgba(255, 92, 104, 0.10);
+
+    border:
+        1px solid rgba(255, 92, 104, 0.30);
+
+    border-radius:
+        999px;
+
+    padding:
+        5px 11px;
+
+    font-size:
+        0.75rem;
+
+    font-weight:
+        700;
+}
+
+
+.risk-medium {
+
+    color:
+        var(--warning);
+
+    background:
+        rgba(245, 185, 66, 0.10);
+
+    border:
+        1px solid rgba(245, 185, 66, 0.30);
+
+    border-radius:
+        999px;
+
+    padding:
+        5px 11px;
+
+    font-size:
+        0.75rem;
+
+    font-weight:
+        700;
+}
+
+
+.risk-low {
+
+    color:
+        var(--success);
+
+    background:
+        rgba(37, 194, 129, 0.10);
+
+    border:
+        1px solid rgba(37, 194, 129, 0.30);
+
+    border-radius:
+        999px;
+
+    padding:
+        5px 11px;
+
+    font-size:
+        0.75rem;
+
+    font-weight:
+        700;
+}
+
+
+/* ============================================================
+   SECTION LABEL
+   ============================================================ */
+
+.section-label {
+
+    color:
+        var(--text-secondary);
+
+    font-size:
+        0.78rem;
+
+    font-weight:
+        700;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        0.1em;
+
+    margin-bottom:
+        0.55rem;
+}
+
+
+/* ============================================================
+   INFO STRIP
+   ============================================================ */
+
+.info-strip {
+
+    background:
+        rgba(22, 131, 255, 0.07);
+
+    border:
+        1px solid rgba(22, 131, 255, 0.18);
+
+    border-radius:
+        var(--radius-md);
+
+    padding:
+        0.8rem 1rem;
+
+    color:
+        var(--text-secondary);
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+    [data-testid="stMainBlockContainer"] {
+
+        padding-left:
+            1rem;
+
+        padding-right:
+            1rem;
+    }
+
+    h1 {
+
+        font-size:
+            1.8rem !important;
+    }
+
+    .metric-value {
+
+        font-size:
+            1.7rem;
+    }
+}

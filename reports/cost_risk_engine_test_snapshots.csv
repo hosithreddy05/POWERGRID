@@ -1,0 +1,176 @@
+cost_risk_score,cost_risk_level,expenditure_pct,physical_progress_pct,expenditure_progress_gap,schedule_slippage_months,schedule_pressure_ratio,risk_reasons,risk_warnings,project_code,snapshot_date,project_category,actual_cost_overrun_pct
+35,MEDIUM,91.24995050876984,93.0,-1.7500494912301576,25.0,3.272727272727273,"['Project is significantly beyond its original schedule.', 'Elapsed project duration is more than twice the planned duration.']",[],400005,2025-07-01,Transmission_System,0.0
+35,MEDIUM,91.78885501489135,93.0,-1.2111449851086462,26.0,3.3636363636363638,"['Project is significantly beyond its original schedule.', 'Elapsed project duration is more than twice the planned duration.']",[],400005,2025-08-01,Transmission_System,0.0
+35,MEDIUM,92.60996951340222,93.0,-0.39003048659778017,27.0,3.4545454545454546,"['Project is significantly beyond its original schedule.', 'Elapsed project duration is more than twice the planned duration.']",[],400005,2025-09-01,Transmission_System,0.0
+35,MEDIUM,92.61018947442513,93.0,-0.38981052557487317,28.0,3.5454545454545454,"['Project is significantly beyond its original schedule.', 'Elapsed project duration is more than twice the planned duration.']",[],400005,2025-10-01,Transmission_System,0.0
+40,MEDIUM,95.00006598830686,94.0,1.000065988306858,29.0,3.6363636363636362,"['Project is significantly beyond its original schedule.', 'Elapsed project duration is more than twice the planned duration.']",['Expenditure is currently ahead of physical progress.'],400005,2025-11-01,Transmission_System,0.0
+40,MEDIUM,95.86979187288011,95.0,0.8697918728801142,30.0,3.727272727272727,"['Project is significantly beyond its original schedule.', 'Elapsed project duration is more than twice the planned duration.']",['Expenditure is currently ahead of physical progress.'],400005,2025-12-01,Transmission_System,0.0
+40,MEDIUM,98.58982988214488,96.0,2.5898298821448833,31.0,3.8181818181818183,"['Project is significantly beyond its original schedule.', 'Elapsed project duration is more than twice the planned duration.']",['Expenditure is currently ahead of physical progress.'],400005,2026-01-01,Transmission_System,0.0
+40,MEDIUM,98.99983722884303,98.0,0.9998372288430346,32.0,3.909090909090909,"['Project is significantly beyond its original schedule.', 'Elapsed project duration is more than twice the planned duration.']",['Expenditure is currently ahead of physical progress.'],400005,2026-02-01,Transmission_System,0.0
+35,MEDIUM,99.49914875084134,99.65,-0.15085124915866288,33.0,4.0,"['Project is significantly beyond its original schedule.', 'Elapsed project duration is more than twice the planned duration.']",[],400005,2026-03-01,Transmission_System,0.0
+35,MEDIUM,99.59989089933264,99.9,-0.3001091006673704,34.0,4.090909090909091,"['Project is significantly beyond its original schedule.', 'Elapsed project duration is more than twice the planned duration.']",[],400005,2026-04-01,Transmission_System,0.0
+10,LOW,91.99933235040476,93.0,-1.0006676495952433,22.0,2.1578947368421053,['Elapsed project duration is more than twice the planned duration.'],[],608301,2025-07-01,Transmission_System,0.0
+10,LOW,92.05496981667454,93.0,-0.9450301833254571,23.0,2.210526315789474,['Elapsed project duration is more than twice the planned duration.'],[],608301,2025-08-01,Transmission_System,0.0
+10,LOW,93.501543939689,94.0,-0.49845606031099976,24.0,2.263157894736842,['Elapsed project duration is more than twice the planned duration.'],[],608301,2025-09-01,Transmission_System,0.0
+35,MEDIUM,94.99819178234624,97.0,-2.0018082176537604,25.0,2.3157894736842106,"['Project is significantly beyond its original schedule.', 'Elapsed project duration is more than twice the planned duration.']",[],608301,2025-10-01,Transmission_System,0.0
+15,LOW,98.00953763217916,96.0,2.0095376321791605,20.0,3.2222222222222223,['Elapsed project duration is more than twice the planned duration.'],['Expenditure is currently ahead of physical progress.'],611737,2025-07-01,Transmission_System,0.0
+15,LOW,98.01212938005392,97.0,1.0121293800539206,21.0,3.3333333333333335,['Elapsed project duration is more than twice the planned duration.'],['Expenditure is currently ahead of physical progress.'],611737,2025-08-01,Transmission_System,0.0
+15,LOW,98.15985900891562,97.0,1.1598590089156176,22.0,3.4444444444444446,['Elapsed project duration is more than twice the planned duration.'],['Expenditure is currently ahead of physical progress.'],611737,2025-09-01,Transmission_System,0.0
+10,LOW,99.10843873108024,100.0,-0.8915612689197587,23.0,3.5555555555555554,['Elapsed project duration is more than twice the planned duration.'],[],611737,2025-10-01,Transmission_System,0.0
+5,LOW,80.51996798248986,72.0,8.51996798248986,3.0,1.1666666666666667,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],611948,2025-07-01,Transmission_System,0.0
+5,LOW,82.1900338716315,80.0,2.190033871631499,4.0,1.2222222222222223,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],611948,2025-08-01,Transmission_System,0.0
+5,LOW,84.99970605393233,84.0,0.9997060539323286,5.0,1.2777777777777777,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],611948,2025-09-01,Transmission_System,0.0
+0,LOW,87.99976484314585,88.0,-0.00023515685414565723,6.0,1.3333333333333333,['No major cost-risk indicator was detected.'],[],611948,2025-10-01,Transmission_System,0.0
+0,LOW,89.32975774321775,92.0,-2.6702422567822452,7.0,1.3888888888888888,['No major cost-risk indicator was detected.'],[],611948,2025-11-01,Transmission_System,0.0
+5,LOW,94.11881752280344,94.0,0.1188175228034396,8.0,1.4444444444444444,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],611948,2025-12-01,Transmission_System,0.0
+0,LOW,94.37975118595934,95.0,-0.6202488140406643,9.0,1.5,['No major cost-risk indicator was detected.'],[],611948,2026-01-01,Transmission_System,0.0
+0,LOW,94.99975127640428,96.0,-1.0002487235957176,10.0,1.5555555555555556,['No major cost-risk indicator was detected.'],[],611948,2026-02-01,Transmission_System,0.0
+0,LOW,96.00007235595513,97.68,-1.6799276440448807,11.0,1.6111111111111112,['No major cost-risk indicator was detected.'],[],611948,2026-03-01,Transmission_System,0.0
+0,LOW,84.99869326596394,93.0,-8.001306734036064,5.0,1.2777777777777777,['No major cost-risk indicator was detected.'],[],611951,2025-07-01,Transmission_System,0.0
+0,LOW,85.2890786073119,96.0,-10.710921392688107,6.0,1.3333333333333333,['No major cost-risk indicator was detected.'],[],611951,2025-08-01,Transmission_System,0.0
+0,LOW,91.96794145831517,97.0,-5.032058541684833,7.0,1.3888888888888888,['No major cost-risk indicator was detected.'],[],611951,2025-09-01,Transmission_System,0.0
+0,LOW,94.99956442198796,97.0,-2.000435578012045,8.0,1.4444444444444444,['No major cost-risk indicator was detected.'],[],611951,2025-10-01,Transmission_System,0.0
+0,LOW,96.98870401022155,98.0,-1.0112959897784464,9.0,1.5,['No major cost-risk indicator was detected.'],[],611951,2025-11-01,Transmission_System,0.0
+5,LOW,99.49908528617476,99.0,0.4990852861747612,10.0,1.5555555555555556,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],611951,2025-12-01,Transmission_System,0.0
+5,LOW,99.5992682289398,99.0,0.5992682289398061,11.0,1.6111111111111112,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],611951,2026-01-01,Transmission_System,0.0
+5,LOW,99.69945117170484,99.0,0.6994511717048368,12.0,1.6666666666666667,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],611951,2026-02-01,Transmission_System,0.0
+0,LOW,99.69945117170484,99.7,-0.000548828295166004,13.0,1.7222222222222223,['No major cost-risk indicator was detected.'],[],611951,2026-03-01,Transmission_System,0.0
+5,LOW,53.099715175730566,49.0,4.099715175730566,0.0,0.7916666666666666,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],612134,2025-07-01,Transmission_System,0.0
+5,LOW,56.80176364254888,51.0,5.801763642548877,0.0,0.8333333333333334,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],612134,2025-08-01,Transmission_System,0.0
+5,LOW,65.99985325213285,54.0,11.999853252132851,0.0,0.875,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],612134,2025-09-01,Transmission_System,0.0
+5,LOW,66.99973985605368,57.0,9.99973985605368,0.0,0.9166666666666666,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],612134,2025-10-01,Transmission_System,0.0
+5,LOW,69.99973318569607,60.0,9.999733185696073,0.0,0.9583333333333334,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],612134,2025-11-01,Transmission_System,0.0
+5,LOW,71.99983991141765,62.0,9.999839911417652,-0.0,1.0,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],612134,2025-12-01,Transmission_System,0.0
+5,LOW,74.99983324106006,64.0,10.99983324106006,1.0,1.0416666666666667,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],612134,2026-01-01,Transmission_System,0.0
+5,LOW,75.99971984498089,65.0,10.999719844980888,2.0,1.0833333333333333,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],612134,2026-02-01,Transmission_System,0.0
+5,LOW,75.99971984498089,68.21,7.789719844980894,3.0,1.125,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],612134,2026-03-01,Transmission_System,0.0
+0,LOW,31.000550088625385,39.0,-7.999449911374615,0.0,0.9047619047619048,['No major cost-risk indicator was detected.'],[],612856,2025-07-01,Substation_Grid_Equipment,0.0
+0,LOW,36.99651610537253,42.0,-5.003483894627472,0.0,0.9523809523809523,['No major cost-risk indicator was detected.'],[],612856,2025-08-01,Substation_Grid_Equipment,0.0
+0,LOW,43.99486583949636,56.0,-12.005134160503637,-0.0,1.0,['No major cost-risk indicator was detected.'],[],612856,2025-09-01,Substation_Grid_Equipment,0.0
+0,LOW,51.99559929099687,62.0,-10.004400709003129,1.0,1.0476190476190477,['No major cost-risk indicator was detected.'],[],612856,2025-10-01,Substation_Grid_Equipment,0.0
+0,LOW,53.9942546299126,82.0,-28.005745370087404,2.0,1.0952380952380953,['No major cost-risk indicator was detected.'],[],612856,2025-11-01,Substation_Grid_Equipment,0.0
+0,LOW,67.868712181407,82.0,-14.131287818592995,3.0,1.1428571428571428,['No major cost-risk indicator was detected.'],[],612856,2025-12-01,Substation_Grid_Equipment,0.0
+0,LOW,81.95098099138195,83.0,-1.0490190086180462,4.0,1.1904761904761905,['No major cost-risk indicator was detected.'],[],612856,2026-01-01,Substation_Grid_Equipment,0.0
+0,LOW,88.99822749220708,91.0,-2.0017725077929214,5.0,1.2380952380952381,['No major cost-risk indicator was detected.'],[],612856,2026-02-01,Substation_Grid_Equipment,0.0
+5,LOW,0.2042662464618168,0.0,0.2042662464618168,0.0,0.6666666666666666,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],617271,2025-09-01,Transmission_System,0.0
+5,LOW,0.2071843356969855,0.0,0.2071843356969855,0.0,0.7777777777777778,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],617271,2025-11-01,Transmission_System,0.0
+0,LOW,1.9988911260906357,4.0,-2.0011088739093643,0.0,0.8333333333333334,['No major cost-risk indicator was detected.'],[],617271,2025-12-01,Transmission_System,0.0
+5,LOW,12.02836382736584,9.0,3.0283638273658404,0.0,0.8888888888888888,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],617271,2026-01-01,Transmission_System,0.0
+0,LOW,17.887887011584812,21.0,-3.1121129884151877,0.0,0.9444444444444444,['No major cost-risk indicator was detected.'],[],617271,2026-02-01,Transmission_System,0.0
+0,LOW,28.49805947065861,29.36,-0.8619405293413891,-0.0,1.0,['No major cost-risk indicator was detected.'],[],617271,2026-03-01,Transmission_System,0.0
+5,LOW,29.99795733753538,29.73,0.2679573375353783,1.0,1.0555555555555556,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],617271,2026-04-01,Transmission_System,0.0
+5,LOW,34.99956228661472,29.73,5.269562286614718,2.0,1.1111111111111112,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],617271,2026-05-01,Transmission_System,0.0
+5,LOW,39.998249146458896,29.73,10.268249146458896,3.0,1.1666666666666667,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],617271,2026-06-01,Transmission_System,0.0
+5,LOW,0.0225275963054742,0.0,0.0225275963054742,0.0,0.3333333333333333,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],617391,2025-09-01,Substation_Grid_Equipment,0.0
+5,LOW,0.0245755596059718,0.0,0.0245755596059718,0.0,0.38095238095238093,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],617391,2025-10-01,Substation_Grid_Equipment,0.0
+5,LOW,0.0450551926109484,0.0,0.0450551926109484,0.0,0.42857142857142855,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],617391,2025-11-01,Substation_Grid_Equipment,0.0
+5,LOW,0.2007004034487702,0.0,0.2007004034487702,0.0,0.47619047619047616,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],617391,2025-12-01,Substation_Grid_Equipment,0.0
+5,LOW,0.4997030453214278,0.0,0.4997030453214278,0.0,0.5238095238095238,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],617391,2026-01-01,Substation_Grid_Equipment,0.0
+0,LOW,0.9994060906428556,1.0,-0.0005939093571444287,0.0,0.6190476190476191,['No major cost-risk indicator was detected.'],[],617391,2026-03-01,Substation_Grid_Equipment,0.0
+0,LOW,1.200106494091626,1.5,-0.29989350590837405,0.0,0.6666666666666666,['No major cost-risk indicator was detected.'],[],617391,2026-04-01,Substation_Grid_Equipment,0.0
+0,LOW,1.200106494091626,2.7,-1.4998935059083742,0.0,0.7142857142857143,['No major cost-risk indicator was detected.'],[],617391,2026-05-01,Substation_Grid_Equipment,0.0
+0,LOW,1.9988121812857111,4.5,-2.501187818714289,0.0,0.7619047619047619,['No major cost-risk indicator was detected.'],[],617391,2026-06-01,Substation_Grid_Equipment,0.0
+75,HIGH,101.61800568502476,99.0,2.6180056850247553,54.0,2.8,"['Expenditure has exceeded the original approved cost.', 'Project is significantly beyond its original schedule.', 'Elapsed project duration is more than twice the planned duration.']",['Expenditure is currently ahead of physical progress.'],N18000264,2024-08-01,Substation_Grid_Equipment,36.45871626134546
+75,HIGH,102.12541226784856,99.0,3.12541226784856,57.0,2.9,"['Expenditure has exceeded the original approved cost.', 'Project is significantly beyond its original schedule.', 'Elapsed project duration is more than twice the planned duration.']",['Expenditure is currently ahead of physical progress.'],N18000264,2024-11-01,Substation_Grid_Equipment,36.45871626134546
+75,HIGH,102.12541226784856,99.0,3.12541226784856,58.0,2.933333333333333,"['Expenditure has exceeded the original approved cost.', 'Project is significantly beyond its original schedule.', 'Elapsed project duration is more than twice the planned duration.']",['Expenditure is currently ahead of physical progress.'],N18000264,2024-12-01,Substation_Grid_Equipment,36.45871626134546
+75,HIGH,102.12541226784856,99.0,3.12541226784856,59.0,2.966666666666667,"['Expenditure has exceeded the original approved cost.', 'Project is significantly beyond its original schedule.', 'Elapsed project duration is more than twice the planned duration.']",['Expenditure is currently ahead of physical progress.'],N18000264,2025-01-01,Substation_Grid_Equipment,36.45871626134546
+0,LOW,72.59637070191874,100.0,-27.403629298081256,17.0,1.7727272727272727,['No major cost-risk indicator was detected.'],[],N18000316,2024-08-01,Other_Power_Transmission,0.0
+0,LOW,72.85659761979113,100.0,-27.14340238020887,20.0,1.9090909090909092,['No major cost-risk indicator was detected.'],[],N18000316,2024-11-01,Other_Power_Transmission,0.0
+0,LOW,43.8670941782975,83.0,-39.1329058217025,0.0,0.7894736842105263,['No major cost-risk indicator was detected.'],[],N18000328,2024-08-01,Transmission_System,0.0
+0,LOW,46.1303910474035,86.0,-39.8696089525965,0.0,0.868421052631579,['No major cost-risk indicator was detected.'],[],N18000328,2024-11-01,Transmission_System,0.0
+0,LOW,47.70212498428266,88.0,-40.29787501571734,0.0,0.8947368421052632,['No major cost-risk indicator was detected.'],[],N18000328,2024-12-01,Transmission_System,0.0
+0,LOW,48.64516534641016,90.0,-41.35483465358984,0.0,0.9210526315789473,['No major cost-risk indicator was detected.'],[],N18000328,2025-01-01,Transmission_System,0.0
+0,LOW,49.58820570853766,94.0,-44.41179429146234,0.0,0.9473684210526315,['No major cost-risk indicator was detected.'],[],N18000328,2025-02-01,Transmission_System,0.0
+0,LOW,49.58820570853766,94.0,-44.41179429146234,0.0,0.9736842105263158,['No major cost-risk indicator was detected.'],[],N18000328,2025-03-01,Transmission_System,0.0
+0,LOW,53.36036715704765,95.0,-41.63963284295235,-0.0,1.0,['No major cost-risk indicator was detected.'],[],N18000328,2025-04-01,Transmission_System,0.0
+0,LOW,53.36036715704765,98.0,-44.63963284295235,1.0,1.0263157894736843,['No major cost-risk indicator was detected.'],[],N18000328,2025-05-01,Transmission_System,0.0
+0,LOW,80.00125738714951,98.0,-17.998742612850492,2.0,1.0526315789473684,['No major cost-risk indicator was detected.'],[],N18000328,2025-06-01,Transmission_System,0.0
+10,LOW,46.247904871256814,63.0,-16.752095128743186,14.0,2.272727272727273,['Elapsed project duration is more than twice the planned duration.'],[],N18000337,2024-08-01,Transmission_System,0.0
+10,LOW,47.95920162947125,64.0,-16.040798370528748,15.0,2.3636363636363638,['Elapsed project duration is more than twice the planned duration.'],[],N18000337,2024-09-01,Transmission_System,0.0
+10,LOW,53.304254486105066,75.0,-21.695745513894934,17.0,2.5454545454545454,['Elapsed project duration is more than twice the planned duration.'],[],N18000337,2024-11-01,Transmission_System,0.0
+10,LOW,54.93196605561494,80.0,-25.068033944385057,18.0,2.6363636363636362,['Elapsed project duration is more than twice the planned duration.'],[],N18000337,2024-12-01,Transmission_System,0.0
+10,LOW,56.097759477020674,84.0,-27.902240522979326,19.0,2.727272727272727,['Elapsed project duration is more than twice the planned duration.'],[],N18000337,2025-01-01,Transmission_System,0.0
+10,LOW,57.72547104653055,87.0,-29.27452895346945,20.0,2.8181818181818183,['Elapsed project duration is more than twice the planned duration.'],[],N18000337,2025-02-01,Transmission_System,0.0
+10,LOW,58.957252774808296,89.0,-30.042747225191704,21.0,2.909090909090909,['Elapsed project duration is more than twice the planned duration.'],[],N18000337,2025-03-01,Transmission_System,0.0
+10,LOW,61.266843515329086,91.0,-29.733156484670914,22.0,3.0,['Elapsed project duration is more than twice the planned duration.'],[],N18000337,2025-04-01,Transmission_System,0.0
+10,LOW,87.3100086664643,92.0,-4.689991333535701,23.0,3.090909090909091,['Elapsed project duration is more than twice the planned duration.'],[],N18000337,2025-05-01,Transmission_System,0.0
+10,LOW,90.00079185968247,93.0,-2.999208140317535,24.0,3.1818181818181817,['Elapsed project duration is more than twice the planned duration.'],[],N18000337,2025-06-01,Transmission_System,0.0
+0,LOW,30.82206070584786,45.0,-14.17793929415214,0.0,0.85,['No major cost-risk indicator was detected.'],[],N18000352,2024-08-01,Transmission_System,0.0
+0,LOW,47.566071035878814,68.0,-20.433928964121186,-0.0,1.0,['No major cost-risk indicator was detected.'],[],N18000352,2024-11-01,Transmission_System,0.0
+0,LOW,49.82153631017159,75.0,-25.178463689828412,1.0,1.05,['No major cost-risk indicator was detected.'],[],N18000352,2024-12-01,Transmission_System,0.0
+0,LOW,54.69897996582971,80.0,-25.301020034170293,2.0,1.1,['No major cost-risk indicator was detected.'],[],N18000352,2025-01-01,Transmission_System,0.0
+0,LOW,56.390578921549285,84.0,-27.609421078450715,3.0,1.15,['No major cost-risk indicator was detected.'],[],N18000352,2025-02-01,Transmission_System,0.0
+0,LOW,59.3790704099872,87.0,-27.6209295900128,4.0,1.2,['No major cost-risk indicator was detected.'],[],N18000352,2025-03-01,Transmission_System,0.0
+0,LOW,62.08562873913852,89.0,-26.91437126086148,5.0,1.25,['No major cost-risk indicator was detected.'],[],N18000352,2025-04-01,Transmission_System,0.0
+0,LOW,77.78535864717193,97.0,-19.214641352828068,6.0,1.3,['No major cost-risk indicator was detected.'],[],N18000352,2025-05-01,Transmission_System,0.0
+0,LOW,79.99994361336815,94.0,-14.000056386631854,7.0,1.35,['No major cost-risk indicator was detected.'],[],N18000352,2025-06-01,Transmission_System,0.0
+0,LOW,0.9679556384336048,25.0,-24.032044361566395,0.0,0.7083333333333334,['No major cost-risk indicator was detected.'],[],N18000358,2024-08-01,Transmission_System,0.0
+0,LOW,0.9802237707331436,26.0,-25.019776229266856,0.0,0.75,['No major cost-risk indicator was detected.'],[],N18000358,2024-09-01,Transmission_System,0.0
+0,LOW,0.9802237707331436,42.0,-41.01977622926685,0.0,0.8333333333333334,['No major cost-risk indicator was detected.'],[],N18000358,2024-11-01,Transmission_System,0.0
+0,LOW,0.9802237707331436,51.0,-50.01977622926685,0.0,0.875,['No major cost-risk indicator was detected.'],[],N18000358,2024-12-01,Transmission_System,0.0
+0,LOW,1.225586416723918,59.0,-57.77441358327608,0.0,0.9166666666666666,['No major cost-risk indicator was detected.'],[],N18000358,2025-01-01,Transmission_System,0.0
+0,LOW,1.348267739719305,72.0,-70.6517322602807,0.0,0.9583333333333334,['No major cost-risk indicator was detected.'],[],N18000358,2025-02-01,Transmission_System,0.0
+0,LOW,1.348267739719305,83.0,-81.6517322602807,-0.0,1.0,['No major cost-risk indicator was detected.'],[],N18000358,2025-03-01,Transmission_System,0.0
+0,LOW,1.348267739719305,88.0,-86.6517322602807,1.0,1.0416666666666667,['No major cost-risk indicator was detected.'],[],N18000358,2025-04-01,Transmission_System,0.0
+0,LOW,90.5424968102856,94.6,-4.057503189714396,2.0,1.0833333333333333,['No major cost-risk indicator was detected.'],[],N18000358,2025-05-01,Transmission_System,0.0
+0,LOW,93.00348414957308,100.0,-6.996515850426917,3.0,1.125,['No major cost-risk indicator was detected.'],[],N18000358,2025-06-01,Transmission_System,0.0
+5,LOW,19.15812917594655,11.0,8.158129175946549,0.0,0.5555555555555556,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],N18000375,2024-08-01,Other_Power_Transmission,0.0
+0,LOW,32.26503340757239,33.0,-0.734966592427611,0.0,0.7222222222222222,['No major cost-risk indicator was detected.'],[],N18000375,2024-11-01,Other_Power_Transmission,0.0
+0,LOW,34.937639198218264,38.0,-3.062360801781736,0.0,0.7777777777777778,['No major cost-risk indicator was detected.'],[],N18000375,2024-12-01,Other_Power_Transmission,0.0
+0,LOW,41.00668151447662,45.0,-3.993318485523382,0.0,0.8333333333333334,['No major cost-risk indicator was detected.'],[],N18000375,2025-01-01,Other_Power_Transmission,0.0
+0,LOW,43.84632516703786,56.0,-12.153674832962139,0.0,0.8888888888888888,['No major cost-risk indicator was detected.'],[],N18000375,2025-02-01,Other_Power_Transmission,0.0
+0,LOW,48.6347438752784,60.0,-11.365256124721597,0.0,0.9444444444444444,['No major cost-risk indicator was detected.'],[],N18000375,2025-03-01,Other_Power_Transmission,0.0
+0,LOW,51.75278396436526,67.0,-15.247216035634743,0.0,0.0,['No major cost-risk indicator was detected.'],[],N18000375,2025-04-01,Other_Power_Transmission,0.0
+0,LOW,59.521158129175944,73.6,-14.07884187082405,1.0,1.0555555555555556,['No major cost-risk indicator was detected.'],[],N18000375,2025-05-01,Other_Power_Transmission,0.0
+0,LOW,64.0,77.3,-13.299999999999997,2.0,1.1111111111111112,['No major cost-risk indicator was detected.'],[],N18000375,2025-06-01,Other_Power_Transmission,0.0
+0,LOW,2.314199395770393,26.0,-23.685800604229605,0.0,0.7407407407407407,['No major cost-risk indicator was detected.'],[],N18000378,2024-08-01,Other_Power_Transmission,0.0
+0,LOW,2.6163141993957706,26.0,-23.38368580060423,0.0,0.8888888888888888,['No major cost-risk indicator was detected.'],[],N18000378,2024-12-01,Other_Power_Transmission,0.0
+0,LOW,2.6163141993957706,26.0,-23.38368580060423,0.0,0.9259259259259259,['No major cost-risk indicator was detected.'],[],N18000378,2025-01-01,Other_Power_Transmission,0.0
+0,LOW,2.6163141993957706,26.0,-23.38368580060423,0.0,0.9629629629629629,['No major cost-risk indicator was detected.'],[],N18000378,2025-02-01,Other_Power_Transmission,0.0
+0,LOW,2.6163141993957706,26.0,-23.38368580060423,-0.0,1.0,['No major cost-risk indicator was detected.'],[],N18000378,2025-03-01,Other_Power_Transmission,0.0
+0,LOW,2.6163141993957706,26.0,-23.38368580060423,0.0,0.07692307692307693,['No major cost-risk indicator was detected.'],[],N18000378,2025-04-01,Other_Power_Transmission,0.0
+0,LOW,2.6163141993957706,26.0,-23.38368580060423,2.0,1.0740740740740742,['No major cost-risk indicator was detected.'],[],N18000378,2025-05-01,Other_Power_Transmission,0.0
+0,LOW,5.507552870090635,27.0,-21.492447129909365,3.0,1.1111111111111112,['No major cost-risk indicator was detected.'],[],N18000378,2025-06-01,Other_Power_Transmission,0.0
+0,LOW,6.6861489191353085,10.0,-3.3138510808646915,0.0,0.6111111111111112,['No major cost-risk indicator was detected.'],[],N18000380,2024-08-01,Transmission_System,0.0
+0,LOW,7.510808646917535,15.0,-7.489191353082465,0.0,0.6666666666666666,['No major cost-risk indicator was detected.'],[],N18000380,2024-09-01,Transmission_System,0.0
+0,LOW,11.594075260208166,39.0,-27.405924739791836,0.0,0.7777777777777778,['No major cost-risk indicator was detected.'],[],N18000380,2024-11-01,Transmission_System,0.0
+0,LOW,14.076060848678942,43.0,-28.923939151321058,0.0,0.8333333333333334,['No major cost-risk indicator was detected.'],[],N18000380,2024-12-01,Transmission_System,0.0
+0,LOW,18.159327461969575,46.0,-27.840672538030425,0.0,0.8888888888888888,['No major cost-risk indicator was detected.'],[],N18000380,2025-01-01,Transmission_System,0.0
+0,LOW,21.68214571657326,50.0,-28.31785428342674,0.0,0.9444444444444444,['No major cost-risk indicator was detected.'],[],N18000380,2025-02-01,Transmission_System,0.0
+0,LOW,27.286629303442755,52.0,-24.713370696557245,-0.0,1.0,['No major cost-risk indicator was detected.'],[],N18000380,2025-03-01,Transmission_System,0.0
+0,LOW,33.531625300240194,53.0,-19.468374699759806,1.0,1.0555555555555556,['No major cost-risk indicator was detected.'],[],N18000380,2025-04-01,Transmission_System,0.0
+0,LOW,45.53242594075261,56.7,-11.167574059247393,2.0,1.1111111111111112,['No major cost-risk indicator was detected.'],[],N18000380,2025-05-01,Transmission_System,0.0
+0,LOW,60.98398718975181,67.5,-6.516012810248192,3.0,1.1666666666666667,['No major cost-risk indicator was detected.'],[],N18000380,2025-06-01,Transmission_System,0.0
+0,LOW,0.0,0.0,0.0,0.0,0.5833333333333334,['No major cost-risk indicator was detected.'],[],N18000383,2024-09-01,Transmission_System,0.0
+0,LOW,0.0,3.0,-3.0,0.0,0.7083333333333334,['No major cost-risk indicator was detected.'],[],N18000383,2024-12-01,Transmission_System,0.0
+0,LOW,0.0,4.0,-4.0,0.0,0.75,['No major cost-risk indicator was detected.'],[],N18000383,2025-01-01,Transmission_System,0.0
+0,LOW,0.0,6.0,-6.0,0.0,0.7916666666666666,['No major cost-risk indicator was detected.'],[],N18000383,2025-02-01,Transmission_System,0.0
+0,LOW,0.0,12.0,-12.0,0.0,0.8333333333333334,['No major cost-risk indicator was detected.'],[],N18000383,2025-03-01,Transmission_System,0.0
+0,LOW,0.0,15.0,-15.0,0.0,0.875,['No major cost-risk indicator was detected.'],[],N18000383,2025-04-01,Transmission_System,0.0
+0,LOW,10.04191616766467,18.0,-7.95808383233533,0.0,0.9166666666666666,['No major cost-risk indicator was detected.'],[],N18000383,2025-05-01,Transmission_System,0.0
+0,LOW,19.0,21.0,-2.0,0.0,0.9583333333333334,['No major cost-risk indicator was detected.'],[],N18000383,2025-06-01,Transmission_System,0.0
+0,LOW,10.457198443579768,20.0,-9.542801556420232,0.0,0.4583333333333333,['No major cost-risk indicator was detected.'],[],N18000387,2024-11-01,Transmission_System,0.0
+0,LOW,12.791828793774318,25.0,-12.208171206225682,0.0,0.5,['No major cost-risk indicator was detected.'],[],N18000387,2024-12-01,Transmission_System,0.0
+0,LOW,20.719844357976655,30.0,-9.280155642023345,0.0,0.5416666666666666,['No major cost-risk indicator was detected.'],[],N18000387,2025-01-01,Transmission_System,0.0
+0,LOW,26.36186770428016,33.0,-6.6381322957198385,0.0,0.5833333333333334,['No major cost-risk indicator was detected.'],[],N18000387,2025-02-01,Transmission_System,0.0
+0,LOW,32.1011673151751,43.0,-10.898832684824903,0.0,0.625,['No major cost-risk indicator was detected.'],[],N18000387,2025-03-01,Transmission_System,0.0
+0,LOW,41.19649805447471,47.0,-5.803501945525291,0.0,0.6666666666666666,['No major cost-risk indicator was detected.'],[],N18000387,2025-04-01,Transmission_System,0.0
+5,LOW,64.11624513618676,50.7,13.41624513618676,0.0,0.7083333333333334,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],N18000387,2025-05-01,Transmission_System,0.0
+5,LOW,64.11624513618676,53.3,10.816245136186765,0.0,0.75,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],N18000387,2025-06-01,Transmission_System,0.0
+0,LOW,0.0,5.0,-5.0,0.0,0.16666666666666666,['No major cost-risk indicator was detected.'],[],N18000393,2024-12-01,Other_Power_Transmission,0.0
+0,LOW,0.0,6.0,-6.0,0.0,0.20833333333333334,['No major cost-risk indicator was detected.'],[],N18000393,2025-01-01,Other_Power_Transmission,0.0
+0,LOW,2.9636281993713514,9.0,-6.036371800628649,0.0,0.25,['No major cost-risk indicator was detected.'],[],N18000393,2025-02-01,Other_Power_Transmission,0.0
+0,LOW,3.2330489447687474,10.0,-6.766951055231253,0.0,0.2916666666666667,['No major cost-risk indicator was detected.'],[],N18000393,2025-03-01,Other_Power_Transmission,0.0
+0,LOW,5.523125280646609,13.5,-7.976874719353391,0.0,0.3333333333333333,['No major cost-risk indicator was detected.'],[],N18000393,2025-04-01,Other_Power_Transmission,0.0
+0,LOW,13.138302649303997,16.4,-3.261697350696002,0.0,0.375,['No major cost-risk indicator was detected.'],[],N18000393,2025-05-01,Other_Power_Transmission,0.0
+5,LOW,22.0,18.6,3.3999999999999986,0.0,0.4166666666666667,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],N18000393,2025-06-01,Other_Power_Transmission,0.0
+0,LOW,0.0,1.0,-1.0,0.0,0.19047619047619047,['No major cost-risk indicator was detected.'],[],N18000398,2025-02-01,Substation_Grid_Equipment,0.0
+0,LOW,0.0,1.0,-1.0,0.0,0.23809523809523808,['No major cost-risk indicator was detected.'],[],N18000398,2025-03-01,Substation_Grid_Equipment,0.0
+0,LOW,0.0,1.0,-1.0,0.0,0.2857142857142857,['No major cost-risk indicator was detected.'],[],N18000398,2025-04-01,Substation_Grid_Equipment,0.0
+0,LOW,0.0,1.0,-1.0,0.0,0.3333333333333333,['No major cost-risk indicator was detected.'],[],N18000398,2025-05-01,Substation_Grid_Equipment,0.0
+5,LOW,3.0,1.0,2.0,0.0,0.38095238095238093,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],N18000398,2025-06-01,Substation_Grid_Equipment,0.0
+5,LOW,5.399089407308916,1.0,4.399089407308916,0.0,0.05555555555555555,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],N18000405,2025-02-01,Transmission_System,0.0
+5,LOW,5.399089407308916,1.0,4.399089407308916,0.0,0.07407407407407407,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],N18000405,2025-03-01,Transmission_System,0.0
+5,LOW,5.399089407308916,1.0,4.399089407308916,0.0,0.09259259259259259,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],N18000405,2025-04-01,Transmission_System,0.0
+5,LOW,5.860026592529917,1.0,4.860026592529917,0.0,0.1111111111111111,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],N18000405,2025-05-01,Transmission_System,0.0
+5,LOW,4.997381038720335,1.0,3.9973810387203352,0.0,0.12962962962962962,['No major cost-risk indicator was detected.'],['Expenditure is currently ahead of physical progress.'],N18000405,2025-06-01,Transmission_System,0.0

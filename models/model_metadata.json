@@ -1,0 +1,33 @@
+{
+    "project": "SIH 25192",
+    "models": {
+        "cost": {
+            "model": "RandomForestRegressor",
+            "n_estimators": 300,
+            "min_samples_leaf": 3,
+            "target": "target_cost_overrun_pct"
+        },
+        "schedule": {
+            "model": "RandomForestRegressor",
+            "n_estimators": 300,
+            "min_samples_leaf": 5,
+            "target": "target_schedule_overrun_months"
+        }
+    },
+    "features": {
+        "numerical": [
+            "original_cost_cr",
+            "cumulative_expenditure_cr",
+            "physical_progress_pct",
+            "planned_duration_months",
+            "elapsed_months",
+            "months_to_original_target",
+            "expenditure_pct_of_original_cost"
+        ],
+        "categorical": [
+            "project_category"
+        ]
+    },
+    "training_rows": 493,
+    "training_projects": 69
+}

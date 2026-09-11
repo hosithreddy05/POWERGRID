@@ -1,0 +1,5 @@
+metric,value,unit
+MAE,2.1853766656612366,percent
+RMSE,6.908330196794372,percent
+R2,-0.6075460579627641,score
+Project_MAE,2.510498614339602,percent

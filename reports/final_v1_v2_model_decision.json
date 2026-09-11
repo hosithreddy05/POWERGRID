@@ -1,0 +1,33 @@
+{
+    "final_cost_model": "V2 Random Forest (Base + Trajectory)",
+    "final_schedule_model": "V2 Extra Trees (Base + Trajectory)",
+    "cost_model_selection": {
+        "winner": "V2",
+        "v1": {
+            "MAE": 2.242,
+            "RMSE": 7.0698,
+            "R2": -0.6836,
+            "Project_MAE": 3.2043
+        },
+        "v2": {
+            "MAE": 2.1853766656612366,
+            "RMSE": 6.908330196794372,
+            "R2": -0.6075460579627641,
+            "Project_MAE": 2.510498614339602
+        }
+    },
+    "schedule_model": {
+        "algorithm": "ExtraTrees",
+        "MAE": 2.2454036998451286,
+        "RMSE": 3.0522197662784483,
+        "R2": 0.9427904306543731,
+        "Project_MAE": 2.267653255204972
+    },
+    "data_policy": {
+        "synthetic_data": false,
+        "pdf_rows_appended": false,
+        "v1_modified": false,
+        "test_set_used_for_tuning": false
+    },
+    "decision": "Use ML models for numerical prediction and the explainable risk engine for risk classification."
+}
