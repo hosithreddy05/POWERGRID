@@ -113,7 +113,6 @@ interface BackendProjectAnalysis {
   prediction?: BackendPrediction;
 }
 
-// Lightweight response from GET /projects
 interface BackendProjectListItem {
   project_code?: string;
   project_name?: string;
@@ -207,11 +206,8 @@ export async function checkApiHealth(): Promise<boolean> {
 /**
  * Lightweight portfolio project list.
  *
- * IMPORTANT:
- * GET /projects intentionally does NOT return predictions.
- * Detailed V2 analysis is fetched through:
- *
- * GET /projects/{project_code}
+ * This endpoint returns real POWERGRID project
+ * snapshot information without predictions.
  */
 export async function fetchProjectList(): Promise<
   BackendProjectListItem[]
@@ -224,14 +220,15 @@ export async function fetchProjectList(): Promise<
 /**
  * Backwards-compatible alias.
  *
- * Some existing screens may still call fetchProjectAnalyses().
- * The endpoint is now lightweight, so callers should not expect
- * prediction data from these records.
+ * For portfolio screens that require predictions,
+ * use fetchProjects(), which calls /project-analyses.
  */
 export async function fetchProjectAnalyses(): Promise<
-  BackendProjectListItem[]
+  BackendProjectAnalysis[]
 > {
-  return fetchProjectList();
+  return apiFetch<BackendProjectAnalysis[]>(
+    '/project-analyses',
+  );
 }
 
 // ============================================================
@@ -630,6 +627,14 @@ function convertProject(
       snapshot.expenditure_velocity,
     );
 
+  const prediction =
+    'prediction' in item
+      ? item.prediction
+      : undefined;
+
+  const latestDate =
+    snapshot.snapshot_date ?? '';
+
   return {
     project_code:
       projectCode,
@@ -667,8 +672,7 @@ function convertProject(
       expenditureVelocity,
 
     latest_snapshot_date:
-      snapshot.snapshot_date ??
-      '',
+      latestDate,
 
     is_training_cost:
       false,
@@ -679,28 +683,78 @@ function convertProject(
     is_unseen_test:
       false,
 
-    snapshots: [],
+    snapshots: [
+      {
+        snapshot_date:
+          latestDate,
+
+        snapshot_num:
+          1,
+
+        physical_progress_pct:
+          physicalProgress,
+
+        cumulative_expenditure:
+          expenditure,
+
+        elapsed_duration_months:
+          elapsedMonths,
+
+        progress_velocity:
+          progressVelocity,
+
+        expenditure_velocity:
+          expenditureVelocity,
+
+        risk_score:
+          numberOrZero(
+            prediction?.cost_risk_score,
+          ),
+
+        predicted_cost_overrun_pct:
+          numberOrZero(
+            prediction?.cost_prediction_pct,
+          ),
+
+        predicted_schedule_overrun_months:
+          numberOrZero(
+            prediction?.schedule_prediction_months,
+          ),
+      },
+    ],
   };
 }
 
 // ============================================================
-// FETCH PROJECTS
+// FETCH ALL PROJECTS
 // ============================================================
 
 /**
- * Fetch all 92 projects using the fast lightweight endpoint.
+ * Fetch all real POWERGRID projects with
+ * their existing V2 predictions.
  *
- * No predictions are expected here.
+ * Uses the backend bulk analysis endpoint:
+ *
+ * GET /project-analyses
+ *
+ * This keeps the backend V2 pipeline as the
+ * single source of truth.
  */
 export async function fetchProjects(): Promise<
   PowerGridProject[]
 > {
-  const projects =
-    await fetchProjectList();
+  const analyses =
+    await fetchProjectAnalyses();
 
-  return projects.map(
-    convertProject,
-  );
+  return analyses
+    .filter(
+      (item) =>
+        Boolean(
+          item.project_code ??
+          item.snapshot?.project_code,
+        ),
+    )
+    .map(convertProject);
 }
 
 // ============================================================

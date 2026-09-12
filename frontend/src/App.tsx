@@ -20,10 +20,6 @@ import {
   checkApiHealth,
 } from './services/api';
 
-import {
-  get_portfolio_stats,
-} from './services/mlPipeline';
-
 
 export default function App() {
   const [activeScreen, setActiveScreen] =
@@ -36,9 +32,16 @@ export default function App() {
     useState<PowerGridProject[]>([]);
 
   const [stats, setStats] =
-    useState<PortfolioStats>(
-      get_portfolio_stats(),
-    );
+    useState<PortfolioStats>({
+      total_projects: 0,
+      validated_projects_count: 0,
+      high_risk_count: 0,
+      medium_risk_count: 0,
+      low_risk_count: 0,
+      cost_training_count: 0,
+      schedule_training_count: 0,
+      unseen_test_count: 0,
+    } as PortfolioStats);
 
   const [loading, setLoading] =
     useState(true);
@@ -46,9 +49,10 @@ export default function App() {
   const [apiError, setApiError] =
     useState('');
 
+
   /*
    * ----------------------------------------------------------
-   * Load real POWERGRID data from FastAPI
+   * Load real POWERGRID V2 data from FastAPI
    * ----------------------------------------------------------
    */
 
@@ -60,8 +64,10 @@ export default function App() {
         setLoading(true);
         setApiError('');
 
-        const healthy =
-          await checkApiHealth();
+        /*
+         * Check whether the POWERGRID backend is available.
+         */
+        const healthy = await checkApiHealth();
 
         if (!healthy) {
           throw new Error(
@@ -69,77 +75,84 @@ export default function App() {
           );
         }
 
-        const loadedProjects =
-          await fetchProjects();
+        /*
+         * fetchProjects() now uses:
+         *
+         * /api/project-analyses
+         *
+         * Therefore every project already contains
+         * its latest backend V2 prediction.
+         */
+        const loadedProjects = await fetchProjects();
 
         if (!mounted) {
           return;
         }
 
-        setProjects(
-          loadedProjects,
-        );
+        setProjects(loadedProjects);
+
 
         /*
-         * Build portfolio statistics from the
-         * real project list when possible.
+         * ------------------------------------------------------
+         * Calculate portfolio risk directly from V2 backend
+         * ------------------------------------------------------
          *
-         * The existing ML statistics remain the
-         * fallback for fields not exposed by the API.
+         * Risk bands:
+         *
+         * 0 - 35   = LOW
+         * 36 - 65  = MEDIUM
+         * 66 - 100 = HIGH
+         *
+         * This is the same classification used by the
+         * Project Matrix.
          */
 
-        const fallbackStats =
-          get_portfolio_stats();
+        let highRisk = 0;
+        let mediumRisk = 0;
+        let lowRisk = 0;
 
-        const highRisk =
-          loadedProjects.filter(
-            (project) => {
-              const snapshot =
-                project.snapshots[
-                  project.snapshots.length - 1
-                ];
+        loadedProjects.forEach((project) => {
+          const snapshot =
+            project.snapshots[
+              project.snapshots.length - 1
+            ];
 
-              return (
-                snapshot &&
-                snapshot.risk_score >= 70
-              );
-            },
-          ).length;
+          const riskScore =
+            Number(snapshot?.risk_score ?? 0);
 
-        const mediumRisk =
-          loadedProjects.filter(
-            (project) => {
-              const snapshot =
-                project.snapshots[
-                  project.snapshots.length - 1
-                ];
+          if (riskScore >= 66) {
+            highRisk += 1;
+          } else if (riskScore >= 36) {
+            mediumRisk += 1;
+          } else {
+            lowRisk += 1;
+          }
+        });
 
-              return (
-                snapshot &&
-                snapshot.risk_score >= 40 &&
-                snapshot.risk_score < 70
-              );
-            },
-          ).length;
 
-        const lowRisk =
-          Math.max(
-            loadedProjects.length -
-              highRisk -
-              mediumRisk,
-            0,
-          );
+        /*
+         * ------------------------------------------------------
+         * Build portfolio statistics
+         * ------------------------------------------------------
+         *
+         * These values come from the real POWERGRID project
+         * analysis data loaded from the V2 backend.
+         *
+         * Training/evaluation counts are based on the known
+         * V2 project split:
+         *
+         * 69 training projects
+         * 23 unseen projects
+         */
+
+        const totalProjects =
+          loadedProjects.length;
 
         setStats({
-          ...fallbackStats,
-
-          total_projects:
-            loadedProjects.length ||
-            fallbackStats.total_projects,
+          total_projects: totalProjects,
 
           validated_projects_count:
-            loadedProjects.length ||
-            fallbackStats.validated_projects_count,
+            totalProjects,
 
           high_risk_count:
             highRisk,
@@ -149,7 +162,17 @@ export default function App() {
 
           low_risk_count:
             lowRisk,
-        });
+
+          cost_training_count:
+            Math.min(69, totalProjects),
+
+          schedule_training_count:
+            Math.min(69, totalProjects),
+
+          unseen_test_count:
+            Math.min(23, totalProjects),
+
+        } as PortfolioStats);
 
       } catch (error) {
         if (!mounted) {
@@ -204,14 +227,11 @@ export default function App() {
   const handleSelectProject = (
     projectCode: string,
   ) => {
-    setSelectedProjectCode(
-      projectCode,
-    );
+    setSelectedProjectCode(projectCode);
 
     /*
      * When a project is selected from the
-     * header/dashboard, take the user to
-     * Project Intelligence.
+     * header/dashboard, open Project Intelligence.
      */
     if (projectCode) {
       setActiveScreen(
@@ -369,12 +389,15 @@ export default function App() {
           onNavigate={
             handleNavigate
           }
+
           onSelectProject={
             handleSelectProject
           }
+
           projects={
             projects
           }
+
           activeScreen={
             activeScreen
           }
@@ -392,6 +415,7 @@ export default function App() {
 
           {!loading && apiError && (
             <div className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+
               <div className="font-bold">
                 POWERGRID backend connection failed
               </div>
@@ -401,9 +425,10 @@ export default function App() {
               </div>
 
               <div className="mt-2 font-mono text-xs">
-                Make sure FastAPI is running on
-                http://127.0.0.1:8000
+                Make sure the POWERGRID FastAPI backend
+                is running and reachable.
               </div>
+
             </div>
           )}
 

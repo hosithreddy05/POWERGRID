@@ -15,7 +15,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from src.application_service import (
-    get_projects,
     analyze_project,
     analyze_what_if,
     predict_new_project,
@@ -183,6 +182,7 @@ def project_list() -> Any:
     """
 
     try:
+
         # Load the real cleaned POWERGRID dataset.
         project_df = load_project_data()
 
@@ -439,6 +439,66 @@ def project_list() -> Any:
             status_code=500,
             detail=(
                 "Unable to load POWERGRID projects: "
+                f"{exc}"
+            ),
+        ) from exc
+
+
+# ============================================================
+# ALL PROJECT ANALYSES + V2 PREDICTIONS
+# ============================================================
+
+@app.get("/api/project-analyses")
+def project_analyses() -> Any:
+    """
+    Return the complete V2 analysis for every
+    real POWERGRID project.
+
+    This endpoint uses the same existing
+    analyze_project() V2 pipeline used by
+    the individual project endpoint.
+
+    No synthetic data is created or used.
+    """
+
+    try:
+
+        # Load the real POWERGRID project list
+        project_df = load_project_data()
+
+        # Get one project code for each real project
+        project_codes = (
+            project_df[
+                "project_code"
+            ]
+            .astype(str)
+            .str.strip()
+            .drop_duplicates()
+            .sort_values()
+            .tolist()
+        )
+
+        results = []
+
+        for project_code in project_codes:
+
+            analysis = analyze_project(
+                project_code
+            )
+
+            if analysis is not None:
+                results.append(
+                    analysis
+                )
+
+        return results
+
+    except Exception as exc:
+
+        raise HTTPException(
+            status_code=500,
+            detail=(
+                "Unable to analyze POWERGRID projects: "
                 f"{exc}"
             ),
         ) from exc
