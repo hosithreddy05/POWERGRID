@@ -559,11 +559,10 @@ def root() -> dict[str, str]:
 @app.get("/api/projects")
 def project_list() -> Any:
     """
-    Return the complete POWERGRID project portfolio with
-    full V2 analysis and prediction data.
+    Return a lightweight list of all POWERGRID projects.
 
-    Project analyses are evaluated concurrently so the
-    endpoint remains responsive on deployment.
+    Detailed V2 prediction and trajectory analysis is handled
+    by /api/projects/{project_code}.
     """
 
     try:
@@ -576,7 +575,7 @@ def project_list() -> Any:
         else:
             records = projects
 
-        project_codes = []
+        result = []
 
         for record in records:
 
@@ -587,50 +586,58 @@ def project_list() -> Any:
                 )
             ).strip()
 
-            if project_code:
-                project_codes.append(
-                    project_code
-                )
+            if not project_code:
+                continue
 
-        # ----------------------------------------------------
-        # Analyze projects concurrently.
-        # ----------------------------------------------------
+            project_name = record.get(
+                "project_name",
+                project_code,
+            )
 
-        def analyze_one(
-            project_code: str,
-        ) -> Any:
+            project_category = record.get(
+                "project_category",
+                "Transmission_System",
+            )
 
-            try:
-                return analyze_project(
-                    project_code
-                )
-
-            except Exception as exc:
-
-                return {
-                    "project_code":
-                        project_code,
-                    "analysis_error":
-                        str(exc),
+            result.append(
+                {
+                    "project_code": project_code,
+                    "project_name": project_name,
+                    "snapshot": {
+                        "project_code": project_code,
+                        "project_name": project_name,
+                        "original_cost_cr": record.get(
+                            "original_cost_cr",
+                            record.get(
+                                "original_approved_cost",
+                                0,
+                            ),
+                        ),
+                        "cumulative_expenditure_cr": record.get(
+                            "cumulative_expenditure_cr",
+                            record.get(
+                                "cumulative_expenditure",
+                                0,
+                            ),
+                        ),
+                        "physical_progress_pct": record.get(
+                            "physical_progress_pct",
+                            0,
+                        ),
+                        "planned_duration_months": record.get(
+                            "planned_duration_months",
+                            0,
+                        ),
+                        "elapsed_months": record.get(
+                            "elapsed_months",
+                            record.get(
+                                "elapsed_duration_months",
+                                0,
+                            ),
+                        ),
+                        "project_category": project_category,
+                    },
                 }
-
-        max_workers = min(
-            8,
-            max(
-                1,
-                len(project_codes),
-            ),
-        )
-
-        with ThreadPoolExecutor(
-            max_workers=max_workers
-        ) as executor:
-
-            result = list(
-                executor.map(
-                    analyze_one,
-                    project_codes,
-                )
             )
 
         return result
@@ -644,7 +651,6 @@ def project_list() -> Any:
                 f"{exc}"
             ),
         ) from exc
-         
 
 # ============================================================
 # PROJECT DETAILS
