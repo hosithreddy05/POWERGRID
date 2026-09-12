@@ -7,7 +7,8 @@ POWERGRID Python application and V2 ML pipeline.
 """
 
 from typing import Any
-from concurrent.futures import ThreadPoolExecutor
+
+import pandas as pd
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -18,6 +19,11 @@ from src.application_service import (
     analyze_project,
     analyze_what_if,
     predict_new_project,
+)
+
+from src.project_service import (
+    load_project_data,
+    load_trajectory_data,
 )
 
 
@@ -166,477 +172,262 @@ def root() -> dict[str, str]:
 # PROJECT LIST
 # ============================================================
 
-
-
-# ============================================================
-# PROJECT ANALYSIS
-# ============================================================
-
-@app.get("/api/projects/{project_code}")
-def project_analysis(
-    project_code: str,
-) -> Any:
-    """
-    Return detailed project intelligence and
-    V2 prediction for a selected project.
-    """
-
-    try:
-
-        result = analyze_project(
-            project_code
-        )
-
-        return result
-
-    except Exception as exc:
-
-        raise HTTPException(
-            status_code=500,
-            detail=(
-                f"Unable to analyze project "
-                f"'{project_code}': {exc}"
-            ),
-        ) from exc
-
-
-# ============================================================
-# NEW PROJECT PREDICTION
-# ============================================================
-
-@app.post("/api/predict")
-def predict(
-    request: PredictionRequest,
-) -> Any:
-    """
-    Run the existing POWERGRID V2 prediction pipeline
-    for a newly entered project.
-
-    The API accepts frontend-friendly field names.
-    application_service.py converts them to the exact
-    field names required by the V2 Python engine.
-    """
-
-    project_data = {
-        "original_approved_cost": (
-            request.original_approved_cost
-        ),
-
-        "project_category": (
-            request.project_category
-        ),
-
-        "cumulative_expenditure": (
-            request.cumulative_expenditure
-        ),
-
-        "physical_progress_pct": (
-            request.physical_progress_pct
-        ),
-
-        "planned_duration_months": (
-            request.planned_duration_months
-        ),
-
-        "elapsed_duration_months": (
-            request.elapsed_duration_months
-        ),
-
-        "progress_velocity": (
-            request.progress_velocity
-        ),
-
-        "expenditure_velocity": (
-            request.expenditure_velocity
-        ),
-    }
-
-    try:
-
-        result = predict_new_project(
-            project_data
-        )
-
-        return result
-
-    except Exception as exc:
-
-        raise HTTPException(
-            status_code=400,
-            detail=(
-                f"Prediction failed: "
-                f"{exc}"
-            ),
-        ) from exc
-
-
-# ============================================================
-# WHAT-IF ANALYSIS
-# ============================================================
-
-@app.post("/api/what-if")
-def what_if(
-    request: WhatIfRequest,
-) -> Any:
-    """
-    Run the existing POWERGRID What-If analysis engine.
-
-    The frontend uses friendly API field names while the
-    underlying Python V2 engine uses its internal field names.
-
-    API field                         V2 field
-    ---------------------------------------------------------
-    cumulative_expenditure       ->  cumulative_expenditure_cr
-    elapsed_duration_months      ->  elapsed_months
-    physical_progress_pct        ->  physical_progress_pct
-    planned_duration_months      ->  planned_duration_months
-    progress_velocity            ->  progress_velocity
-    expenditure_velocity         ->  expenditure_velocity
-    """
-
-    changes: dict[str, float] = {}
-
-    # --------------------------------------------------------
-    # Physical progress
-    # --------------------------------------------------------
-
-    if (
-        request.physical_progress_pct
-        is not None
-    ):
-
-        changes[
-            "physical_progress_pct"
-        ] = (
-            request.physical_progress_pct
-        )
-
-    # --------------------------------------------------------
-    # Cumulative expenditure
-    #
-    # API:
-    #     cumulative_expenditure
-    #
-    # V2:
-    #     cumulative_expenditure_cr
-    # --------------------------------------------------------
-
-    if (
-        request.cumulative_expenditure
-        is not None
-    ):
-
-        changes[
-            "cumulative_expenditure_cr"
-        ] = (
-            request.cumulative_expenditure
-        )
-
-    # --------------------------------------------------------
-    # Planned duration
-    # --------------------------------------------------------
-
-    if (
-        request.planned_duration_months
-        is not None
-    ):
-
-        changes[
-            "planned_duration_months"
-        ] = (
-            request.planned_duration_months
-        )
-
-    # --------------------------------------------------------
-    # Elapsed duration
-    #
-    # API:
-    #     elapsed_duration_months
-    #
-    # V2:
-    #     elapsed_months
-    # --------------------------------------------------------
-
-    if (
-        request.elapsed_duration_months
-        is not None
-    ):
-
-        changes[
-            "elapsed_months"
-        ] = (
-            request.elapsed_duration_months
-        )
-
-    # --------------------------------------------------------
-    # Progress velocity
-    # --------------------------------------------------------
-
-    if (
-        request.progress_velocity
-        is not None
-    ):
-
-        changes[
-            "progress_velocity"
-        ] = (
-            request.progress_velocity
-        )
-
-    # --------------------------------------------------------
-    # Expenditure velocity
-    # --------------------------------------------------------
-
-    if (
-        request.expenditure_velocity
-        is not None
-    ):
-
-        changes[
-            "expenditure_velocity"
-        ] = (
-            request.expenditure_velocity
-        )
-
-    # --------------------------------------------------------
-    # Run Python What-If analysis
-    # --------------------------------------------------------
-
-    try:
-
-        result = analyze_what_if(
-            request.project_code,
-            changes,
-        )
-
-        return {
-            "project_code":
-                request.project_code,
-
-            "baseline":
-                result["baseline"],
-
-            "scenario":
-                result["scenario"],
-        }
-
-    except Exception as exc:
-
-        raise HTTPException(
-            status_code=400,
-            detail=(
-                f"What-If analysis failed: "
-                f"{exc}"
-            ),
-        ) from exc
-# ============================================================
-# CORS
-# ============================================================
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-    ],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
-# ============================================================
-# REQUEST MODELS
-# ============================================================
-
-class PredictionRequest(BaseModel):
-    original_approved_cost: float = Field(gt=0)
-
-    project_category: str
-
-    cumulative_expenditure: float = Field(
-        ge=0
-    )
-
-    physical_progress_pct: float = Field(
-        ge=0,
-        le=100,
-    )
-
-    planned_duration_months: float = Field(
-        gt=0
-    )
-
-    elapsed_duration_months: float = Field(
-        ge=0
-    )
-
-    progress_velocity: float = Field(
-        default=0,
-        ge=0,
-    )
-
-    expenditure_velocity: float = Field(
-        default=0,
-        ge=0,
-    )
-
-
-class WhatIfRequest(BaseModel):
-    project_code: str
-
-    physical_progress_pct: float | None = Field(
-        default=None,
-        ge=0,
-        le=100,
-    )
-
-    cumulative_expenditure: float | None = Field(
-        default=None,
-        ge=0,
-    )
-
-    planned_duration_months: float | None = Field(
-        default=None,
-        gt=0,
-    )
-
-    elapsed_duration_months: float | None = Field(
-        default=None,
-        ge=0,
-    )
-
-    progress_velocity: float | None = Field(
-        default=None,
-        ge=0,
-    )
-
-    expenditure_velocity: float | None = Field(
-        default=None,
-        ge=0,
-    )
-
-
-# ============================================================
-# HEALTH CHECK
-# ============================================================
-
-@app.get("/api/health")
-def health_check() -> dict[str, str]:
-    """
-    Check whether the POWERGRID backend is running.
-    """
-
-    return {
-        "status": "ok",
-        "service": "POWERGRID Project Intelligence API",
-        "version": "2.0.0",
-    }
-
-
-# ============================================================
-# ROOT
-# ============================================================
-
-@app.get("/")
-def root() -> dict[str, str]:
-    """
-    API root endpoint.
-    """
-
-    return {
-        "message": "POWERGRID Project Intelligence API",
-        "status": "running",
-        "docs": "/docs",
-        "health": "/api/health",
-    }
-
-
-# ============================================================
-# PROJECT LIST
-# ============================================================
-
 @app.get("/api/projects")
 def project_list() -> Any:
     """
-    Return a lightweight list of all POWERGRID projects.
+    Return the latest REAL POWERGRID snapshot for every project.
 
-    Detailed V2 prediction and trajectory analysis is handled
-    by /api/projects/{project_code}.
+    This endpoint does not run ML predictions.
+    Detailed prediction is handled by:
+        /api/projects/{project_code}
     """
 
     try:
-        projects = get_projects()
+        # Load the real cleaned POWERGRID dataset.
+        project_df = load_project_data()
 
-        if hasattr(projects, "to_dict"):
-            records = projects.to_dict(
-                orient="records"
+        # Load the real trajectory dataset.
+        trajectory_df = load_trajectory_data()
+
+        # --------------------------------------------------------
+        # Latest raw snapshot for each project
+        # --------------------------------------------------------
+
+        latest_projects = (
+            project_df
+            .sort_values(
+                ["project_code", "snapshot_date"]
             )
-        else:
-            records = projects
+            .drop_duplicates(
+                subset=["project_code"],
+                keep="last",
+            )
+            .copy()
+        )
+
+        # --------------------------------------------------------
+        # Latest trajectory snapshot for each project
+        # --------------------------------------------------------
+
+        latest_trajectory = (
+            trajectory_df
+            .sort_values(
+                ["project_code", "snapshot_date"]
+            )
+            .drop_duplicates(
+                subset=["project_code"],
+                keep="last",
+            )
+            .copy()
+        )
+
+        # --------------------------------------------------------
+        # Convert trajectory data into a lookup dictionary.
+        # This avoids merging and prevents any raw fields from
+        # being overwritten.
+        # --------------------------------------------------------
+
+        trajectory_lookup = {}
+
+        for _, row in latest_trajectory.iterrows():
+
+            code = str(
+                row["project_code"]
+            ).strip()
+
+            trajectory_lookup[code] = row
+
+        # --------------------------------------------------------
+        # Build response
+        # --------------------------------------------------------
 
         result = []
 
-        for record in records:
+        for _, row in latest_projects.iterrows():
 
             project_code = str(
-                record.get(
-                    "project_code",
-                    "",
-                )
+                row["project_code"]
             ).strip()
 
-            if not project_code:
-                continue
-
-            project_name = record.get(
-                "project_name",
-                project_code,
+            project_name = str(
+                row["project_name"]
             )
 
-            project_category = record.get(
-                "project_category",
-                "Transmission_System",
+            trajectory = trajectory_lookup.get(
+                project_code
             )
+
+            # ----------------------------------------------------
+            # Real raw snapshot values
+            # ----------------------------------------------------
+
+            def safe_value(
+                value,
+                default=0,
+            ):
+                if pd.isna(value):
+                    return default
+                return value
+
+            snapshot = {
+                "project_code":
+                    project_code,
+
+                "project_name":
+                    project_name,
+
+                "snapshot_date":
+                    str(
+                        safe_value(
+                            row["snapshot_date"],
+                            "",
+                        )
+                    ),
+
+                "original_cost_cr":
+                    float(
+                        safe_value(
+                            row["original_cost_cr"]
+                        )
+                    ),
+
+                "cumulative_expenditure_cr":
+                    float(
+                        safe_value(
+                            row[
+                                "cumulative_expenditure_cr"
+                            ]
+                        )
+                    ),
+
+                "physical_progress_pct":
+                    float(
+                        safe_value(
+                            row[
+                                "physical_progress_pct"
+                            ]
+                        )
+                    ),
+
+                "planned_duration_months":
+                    float(
+                        safe_value(
+                            row[
+                                "planned_duration_months"
+                            ]
+                        )
+                    ),
+
+                "elapsed_months":
+                    float(
+                        safe_value(
+                            row["elapsed_months"]
+                        )
+                    ),
+
+                "months_to_original_target":
+                    float(
+                        safe_value(
+                            row[
+                                "months_to_original_target"
+                            ]
+                        )
+                    ),
+
+                "expenditure_pct_of_original_cost":
+                    float(
+                        safe_value(
+                            row[
+                                "expenditure_pct_of_original_cost"
+                            ]
+                        )
+                    ),
+
+                "project_category":
+                    str(
+                        safe_value(
+                            row[
+                                "project_category"
+                            ],
+                            "Transmission_System",
+                        )
+                    ),
+            }
+
+            # ----------------------------------------------------
+            # Add real trajectory features
+            # ----------------------------------------------------
+
+            if trajectory is not None:
+
+                snapshot[
+                    "progress_velocity"
+                ] = float(
+                    safe_value(
+                        trajectory[
+                            "progress_velocity"
+                        ]
+                    )
+                )
+
+                snapshot[
+                    "expenditure_velocity"
+                ] = float(
+                    safe_value(
+                        trajectory[
+                            "expenditure_velocity"
+                        ]
+                    )
+                )
+
+                snapshot[
+                    "expenditure_progress_gap"
+                ] = float(
+                    safe_value(
+                        trajectory[
+                            "expenditure_progress_gap"
+                        ]
+                    )
+                )
+
+                snapshot[
+                    "schedule_slippage_months"
+                ] = float(
+                    safe_value(
+                        trajectory[
+                            "schedule_slippage_months"
+                        ]
+                    )
+                )
+
+            else:
+
+                snapshot[
+                    "progress_velocity"
+                ] = 0.0
+
+                snapshot[
+                    "expenditure_velocity"
+                ] = 0.0
+
+                snapshot[
+                    "expenditure_progress_gap"
+                ] = 0.0
+
+                snapshot[
+                    "schedule_slippage_months"
+                ] = 0.0
 
             result.append(
                 {
-                    "project_code": project_code,
-                    "project_name": project_name,
-                    "snapshot": {
-                        "project_code": project_code,
-                        "project_name": project_name,
-                        "original_cost_cr": record.get(
-                            "original_cost_cr",
-                            record.get(
-                                "original_approved_cost",
-                                0,
-                            ),
-                        ),
-                        "cumulative_expenditure_cr": record.get(
-                            "cumulative_expenditure_cr",
-                            record.get(
-                                "cumulative_expenditure",
-                                0,
-                            ),
-                        ),
-                        "physical_progress_pct": record.get(
-                            "physical_progress_pct",
-                            0,
-                        ),
-                        "planned_duration_months": record.get(
-                            "planned_duration_months",
-                            0,
-                        ),
-                        "elapsed_months": record.get(
-                            "elapsed_months",
-                            record.get(
-                                "elapsed_duration_months",
-                                0,
-                            ),
-                        ),
-                        "project_category": project_category,
-                    },
+                    "project_code":
+                        project_code,
+
+                    "project_name":
+                        project_name,
+
+                    "snapshot":
+                        snapshot,
                 }
             )
 
@@ -653,7 +444,7 @@ def project_list() -> Any:
         ) from exc
 
 # ============================================================
-# PROJECT DETAILS
+# PROJECT DETAILS + V2 PREDICTION
 # ============================================================
 
 @app.get(
@@ -663,7 +454,9 @@ def project_details(
     project_code: str,
 ) -> Any:
     """
-    Return complete analysis for one POWERGRID project.
+    Return complete V2 analysis for one POWERGRID project.
+
+    This endpoint performs the actual model prediction.
     """
 
     try:
@@ -713,37 +506,29 @@ def predict(
     """
 
     project_data = {
-        "original_approved_cost": (
-            request.original_approved_cost
-        ),
+        "original_approved_cost":
+            request.original_approved_cost,
 
-        "project_category": (
-            request.project_category
-        ),
+        "project_category":
+            request.project_category,
 
-        "cumulative_expenditure": (
-            request.cumulative_expenditure
-        ),
+        "cumulative_expenditure":
+            request.cumulative_expenditure,
 
-        "physical_progress_pct": (
-            request.physical_progress_pct
-        ),
+        "physical_progress_pct":
+            request.physical_progress_pct,
 
-        "planned_duration_months": (
-            request.planned_duration_months
-        ),
+        "planned_duration_months":
+            request.planned_duration_months,
 
-        "elapsed_duration_months": (
-            request.elapsed_duration_months
-        ),
+        "elapsed_duration_months":
+            request.elapsed_duration_months,
 
-        "progress_velocity": (
-            request.progress_velocity
-        ),
+        "progress_velocity":
+            request.progress_velocity,
 
-        "expenditure_velocity": (
-            request.expenditure_velocity
-        ),
+        "expenditure_velocity":
+            request.expenditure_velocity,
     }
 
     try:
@@ -759,7 +544,8 @@ def predict(
         raise HTTPException(
             status_code=400,
             detail=(
-                f"Prediction failed: {exc}"
+                f"Prediction failed: "
+                f"{exc}"
             ),
         ) from exc
 
@@ -773,7 +559,10 @@ def what_if(
     request: WhatIfRequest,
 ) -> Any:
     """
-    Run the existing POWERGRID What-If analysis engine.
+    Run the existing POWERGRID V2 What-If analysis.
+
+    API field names are converted to the internal
+    V2 field names expected by the analysis engine.
     """
 
     changes: dict[str, float] = {}
@@ -803,7 +592,7 @@ def what_if(
     ):
 
         changes[
-            "cumulative_expenditure"
+            "cumulative_expenditure_cr"
         ] = (
             request.cumulative_expenditure
         )
@@ -833,7 +622,7 @@ def what_if(
     ):
 
         changes[
-            "elapsed_duration_months"
+            "elapsed_months"
         ] = (
             request.elapsed_duration_months
         )
@@ -869,7 +658,7 @@ def what_if(
         )
 
     # --------------------------------------------------------
-    # Run analysis
+    # Run V2 What-If analysis
     # --------------------------------------------------------
 
     try:

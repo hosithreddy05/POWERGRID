@@ -7,10 +7,13 @@ import type {
   RiskLevel,
 } from '../types';
 
+// ============================================================
+// API BASE URL
+// ============================================================
 
 export const API_BASE_URL =
-  'https://powergrid-backend-n46l.onrender.com/api';
-
+  import.meta.env.VITE_API_BASE_URL ??
+  'http://127.0.0.1:8000/api';
 
 // ============================================================
 // BACKEND TYPES
@@ -72,7 +75,6 @@ interface BackendSnapshot {
   expenditure_velocity_rolling?: number;
 }
 
-
 interface BackendPrediction {
   cost_prediction_pct?: number;
 
@@ -97,7 +99,6 @@ interface BackendPrediction {
   schedule_pressure_ratio?: number;
 }
 
-
 interface BackendProjectAnalysis {
   project_code?: string;
 
@@ -112,6 +113,12 @@ interface BackendProjectAnalysis {
   prediction?: BackendPrediction;
 }
 
+// Lightweight response from GET /projects
+interface BackendProjectListItem {
+  project_code?: string;
+  project_name?: string;
+  snapshot?: BackendSnapshot;
+}
 
 // ============================================================
 // BACKEND WHAT-IF TYPES
@@ -123,7 +130,6 @@ interface BackendWhatIfResult {
   prediction?: BackendPrediction;
 }
 
-
 interface BackendWhatIfResponse {
   project_code: string;
 
@@ -131,7 +137,6 @@ interface BackendWhatIfResponse {
 
   scenario: BackendWhatIfResult;
 }
-
 
 // ============================================================
 // API FETCH HELPER
@@ -141,29 +146,24 @@ async function apiFetch<T>(
   endpoint: string,
   options?: RequestInit,
 ): Promise<T> {
-
   const response = await fetch(
     `${API_BASE_URL}${endpoint}`,
     {
       ...options,
 
       headers: {
-        'Content-Type':
-          'application/json',
+        'Content-Type': 'application/json',
 
         ...(options?.headers ?? {}),
       },
     },
   );
 
-
   if (!response.ok) {
-
     let message =
       `API request failed: ${response.status}`;
 
     try {
-
       const error =
         await response.json();
 
@@ -173,7 +173,6 @@ async function apiFetch<T>(
       ) {
         message = error.detail;
       }
-
     } catch {
       // Keep default message.
     }
@@ -181,46 +180,59 @@ async function apiFetch<T>(
     throw new Error(message);
   }
 
-
   return response.json() as Promise<T>;
 }
-
 
 // ============================================================
 // HEALTH
 // ============================================================
 
 export async function checkApiHealth(): Promise<boolean> {
-
   try {
-
     const result =
       await apiFetch<{
         status: string;
       }>('/health');
 
     return result.status === 'ok';
-
   } catch {
-
     return false;
   }
 }
 
-
 // ============================================================
-// PROJECT ANALYSES
+// PROJECT LIST
 // ============================================================
 
-export async function fetchProjectAnalyses(): Promise<
-  BackendProjectAnalysis[]
+/**
+ * Lightweight portfolio project list.
+ *
+ * IMPORTANT:
+ * GET /projects intentionally does NOT return predictions.
+ * Detailed V2 analysis is fetched through:
+ *
+ * GET /projects/{project_code}
+ */
+export async function fetchProjectList(): Promise<
+  BackendProjectListItem[]
 > {
-
-  return apiFetch<BackendProjectAnalysis[]>(
+  return apiFetch<BackendProjectListItem[]>(
     '/projects',
   );
 }
 
+/**
+ * Backwards-compatible alias.
+ *
+ * Some existing screens may still call fetchProjectAnalyses().
+ * The endpoint is now lightweight, so callers should not expect
+ * prediction data from these records.
+ */
+export async function fetchProjectAnalyses(): Promise<
+  BackendProjectListItem[]
+> {
+  return fetchProjectList();
+}
 
 // ============================================================
 // CATEGORY NORMALIZATION
@@ -229,20 +241,16 @@ export async function fetchProjectAnalyses(): Promise<
 function normalizeCategory(
   value?: string,
 ): PowerGridProject['project_category'] {
-
   const category =
     String(value ?? '').toLowerCase();
-
 
   if (category.includes('substation')) {
     return 'Substation_Grid_Equipment';
   }
 
-
   if (category.includes('rural')) {
     return 'Rural_Electrification';
   }
-
 
   if (
     category.includes('renewable') ||
@@ -252,20 +260,16 @@ function normalizeCategory(
     return 'Renewable_Integration';
   }
 
-
   if (category.includes('hvdc')) {
     return 'HVDC_Interconnector';
   }
-
 
   if (category.includes('modern')) {
     return 'Grid_Modernization';
   }
 
-
   return 'Transmission_System';
 }
-
 
 // ============================================================
 // REGION INFERENCE
@@ -274,7 +278,6 @@ function normalizeCategory(
 function inferRegion(
   projectName: string,
 ): string {
-
   const regions = [
     'Gujarat',
     'Rajasthan',
@@ -299,13 +302,10 @@ function inferRegion(
     'West Bengal',
   ];
 
-
   const lowerName =
     projectName.toLowerCase();
 
-
   for (const region of regions) {
-
     if (
       lowerName.includes(
         region.toLowerCase(),
@@ -315,10 +315,8 @@ function inferRegion(
     }
   }
 
-
   return 'India';
 }
-
 
 // ============================================================
 // SAFE NUMBER
@@ -327,12 +325,10 @@ function inferRegion(
 function numberOrZero(
   value?: number,
 ): number {
-
   return Number.isFinite(value)
     ? Number(value)
     : 0;
 }
-
 
 // ============================================================
 // DERIVED FEATURES
@@ -342,13 +338,11 @@ function createDerivedFeatures(
   prediction?: BackendPrediction,
   snapshot?: BackendSnapshot,
 ): DerivedFeatures {
-
   const expenditurePct =
     numberOrZero(
       prediction?.expenditure_pct ??
       snapshot?.expenditure_pct_of_original_cost,
     );
-
 
   const physicalProgress =
     numberOrZero(
@@ -356,25 +350,21 @@ function createDerivedFeatures(
       snapshot?.physical_progress_pct,
     );
 
-
   const gap =
     numberOrZero(
       prediction?.expenditure_progress_gap ??
       snapshot?.expenditure_progress_gap,
     );
 
-
   const planned =
     numberOrZero(
       snapshot?.planned_duration_months,
     );
 
-
   const elapsed =
     numberOrZero(
       snapshot?.elapsed_months,
     );
-
 
   const schedulePressure =
     numberOrZero(
@@ -382,42 +372,35 @@ function createDerivedFeatures(
       snapshot?.schedule_pressure_ratio,
     );
 
-
   const monthsToTarget =
     numberOrZero(
       snapshot?.months_to_original_target,
     );
-
 
   const expenditure =
     numberOrZero(
       snapshot?.cumulative_expenditure_cr,
     );
 
-
   const originalCost =
     numberOrZero(
       snapshot?.original_cost_cr,
     );
-
 
   const progressVelocity =
     numberOrZero(
       snapshot?.progress_velocity,
     );
 
-
   const expenditureVelocity =
     numberOrZero(
       snapshot?.expenditure_velocity,
     );
 
-
   const costBurnRate =
     originalCost > 0
       ? expenditure / originalCost
       : 0;
-
 
   const expectedCost =
     physicalProgress > 0
@@ -425,19 +408,16 @@ function createDerivedFeatures(
         (100 / physicalProgress)
       : expenditure;
 
-
   const scheduleElapsedPct =
     planned > 0
       ? (elapsed / planned) * 100
       : 0;
-
 
   const progressVelocityRatio =
     planned > 0
       ? progressVelocity /
         (100 / planned)
       : 0;
-
 
   const expenditureVelocityRatio =
     originalCost > 0 &&
@@ -446,9 +426,7 @@ function createDerivedFeatures(
         (originalCost / planned)
       : 0;
 
-
   return {
-
     expenditure_pct:
       expenditurePct,
 
@@ -481,7 +459,6 @@ function createDerivedFeatures(
   };
 }
 
-
 // ============================================================
 // RISK LEVEL
 // ============================================================
@@ -489,25 +466,20 @@ function createDerivedFeatures(
 function normalizeRiskLevel(
   value?: string,
 ): RiskLevel {
-
   const level =
     String(value ?? '')
       .toUpperCase();
-
 
   if (level === 'HIGH') {
     return 'HIGH';
   }
 
-
   if (level === 'MEDIUM') {
     return 'MEDIUM';
   }
 
-
   return 'LOW';
 }
-
 
 // ============================================================
 // SCHEDULE RISK
@@ -516,20 +488,16 @@ function normalizeRiskLevel(
 function getScheduleRiskLevel(
   schedule: number,
 ): RiskLevel {
-
   if (schedule >= 12) {
     return 'HIGH';
   }
-
 
   if (schedule >= 3) {
     return 'MEDIUM';
   }
 
-
   return 'LOW';
 }
-
 
 // ============================================================
 // CONVERT BACKEND PREDICTION
@@ -539,39 +507,32 @@ function convertPrediction(
   prediction?: BackendPrediction,
   snapshot?: BackendSnapshot,
 ): PredictionResult {
-
   const cost =
     numberOrZero(
       prediction?.cost_prediction_pct,
     );
-
 
   const schedule =
     numberOrZero(
       prediction?.schedule_prediction_months,
     );
 
-
   const riskScore =
     numberOrZero(
       prediction?.cost_risk_score,
     );
-
 
   const riskLevel =
     normalizeRiskLevel(
       prediction?.cost_risk_level,
     );
 
-
   const scheduleRisk =
     getScheduleRiskLevel(
       schedule,
     );
 
-
   return {
-
     cost_prediction_pct:
       cost,
 
@@ -605,80 +566,71 @@ function convertPrediction(
   };
 }
 
-
 // ============================================================
 // CONVERT PROJECT
 // ============================================================
 
 function convertProject(
-  item: BackendProjectAnalysis,
+  item:
+    BackendProjectAnalysis |
+    BackendProjectListItem,
 ): PowerGridProject {
-
   const snapshot =
     item.snapshot ??
-    item.trajectory_snapshot ??
-    item.model_input ??
+    ('trajectory_snapshot' in item
+      ? item.trajectory_snapshot
+      : undefined) ??
+    ('model_input' in item
+      ? item.model_input
+      : undefined) ??
     {};
-
 
   const projectCode =
     item.project_code ??
     snapshot.project_code ??
     '';
 
-
   const projectName =
     item.project_name ??
     snapshot.project_name ??
     projectCode;
-
 
   const originalCost =
     numberOrZero(
       snapshot.original_cost_cr,
     );
 
-
   const expenditure =
     numberOrZero(
       snapshot.cumulative_expenditure_cr,
     );
-
 
   const physicalProgress =
     numberOrZero(
       snapshot.physical_progress_pct,
     );
 
-
   const plannedDuration =
     numberOrZero(
       snapshot.planned_duration_months,
     );
-
 
   const elapsedMonths =
     numberOrZero(
       snapshot.elapsed_months,
     );
 
-
   const progressVelocity =
     numberOrZero(
       snapshot.progress_velocity,
     );
-
 
   const expenditureVelocity =
     numberOrZero(
       snapshot.expenditure_velocity,
     );
 
-
-
-
   return {
-
     project_code:
       projectCode,
 
@@ -731,28 +683,40 @@ function convertProject(
   };
 }
 
-
 // ============================================================
 // FETCH PROJECTS
 // ============================================================
 
+/**
+ * Fetch all 92 projects using the fast lightweight endpoint.
+ *
+ * No predictions are expected here.
+ */
 export async function fetchProjects(): Promise<
   PowerGridProject[]
 > {
+  const projects =
+    await fetchProjectList();
 
-  const analyses =
-    await fetchProjectAnalyses();
-
-  return analyses.map(
+  return projects.map(
     convertProject,
   );
 }
-
 
 // ============================================================
 // FETCH ONE PROJECT
 // ============================================================
 
+/**
+ * Fetch one project with complete V2 analysis.
+ *
+ * This endpoint contains:
+ * - project snapshot
+ * - prediction
+ * - risk score
+ * - risk level
+ * - derived features
+ */
 export async function fetchProject(
   projectCode: string,
 ): Promise<{
@@ -801,13 +765,13 @@ export async function apiPredictNewProject(
     expenditure_velocity: number;
   },
 ): Promise<PredictionResult> {
-
   const result =
     await apiFetch<{
       input?: BackendSnapshot;
       prediction?: BackendPrediction;
     }>('/predict', {
       method: 'POST',
+
       body: JSON.stringify(input),
     });
 
@@ -825,7 +789,6 @@ export async function apiAnalyzeWhatIf(
   projectCode: string,
   changes: WhatIfChanges,
 ): Promise<WhatIfComparison> {
-
   const result =
     await apiFetch<BackendWhatIfResponse>(
       '/what-if',
@@ -839,13 +802,11 @@ export async function apiAnalyzeWhatIf(
       },
     );
 
-
   const baseline =
     result.baseline;
 
   const scenario =
     result.scenario;
-
 
   const baselineSnapshot =
     baseline?.scenario;
@@ -853,14 +814,8 @@ export async function apiAnalyzeWhatIf(
   const scenarioSnapshot =
     scenario?.scenario;
 
-
   // ----------------------------------------------------------
   // BASELINE PREDICTION
-  // Backend response structure:
-  //
-  // baseline:
-  //   scenario: {...}
-  //   prediction: {...}
   // ----------------------------------------------------------
 
   const baselinePrediction =
@@ -868,7 +823,6 @@ export async function apiAnalyzeWhatIf(
       baseline?.prediction,
       baselineSnapshot,
     );
-
 
   // ----------------------------------------------------------
   // SCENARIO PREDICTION
@@ -879,7 +833,6 @@ export async function apiAnalyzeWhatIf(
       scenario?.prediction,
       scenarioSnapshot,
     );
-
 
   // ----------------------------------------------------------
   // CALCULATE DIFFERENCES
@@ -893,7 +846,6 @@ export async function apiAnalyzeWhatIf(
       ).toFixed(2),
     );
 
-
   const scheduleDiff =
     Number(
       (
@@ -902,20 +854,15 @@ export async function apiAnalyzeWhatIf(
       ).toFixed(1),
     );
 
-
   const riskDiff =
     scenarioPrediction.risk_score -
     baselinePrediction.risk_score;
 
-
   // ----------------------------------------------------------
   // BASELINE INPUTS
-  // Convert Python backend field names into
-  // frontend PowerGridProject field names.
   // ----------------------------------------------------------
 
   const baselineInputs = {
-
     project_code:
       result.project_code ??
       projectCode,
@@ -970,13 +917,11 @@ export async function apiAnalyzeWhatIf(
       ),
   };
 
-
   // ----------------------------------------------------------
   // SCENARIO INPUTS
   // ----------------------------------------------------------
 
   const scenarioInputs = {
-
     project_code:
       result.project_code ??
       projectCode,
@@ -1031,13 +976,11 @@ export async function apiAnalyzeWhatIf(
       ),
   };
 
-
   // ----------------------------------------------------------
   // RETURN FRONTEND WHAT-IF RESULT
   // ----------------------------------------------------------
 
   return {
-
     project_code:
       result.project_code ??
       projectCode,
@@ -1053,50 +996,43 @@ export async function apiAnalyzeWhatIf(
         baselineSnapshot?.project_category,
       ),
 
-
     // --------------------------------------------------------
     // BASELINE
     // --------------------------------------------------------
 
     baseline: {
-
       inputs:
         baselineInputs,
 
       derived:
         createDerivedFeatures(
-          baselineSnapshot,
           baseline?.prediction,
+          baselineSnapshot,
         ),
 
       prediction:
         baselinePrediction,
     },
 
-
     // --------------------------------------------------------
     // SCENARIO
     // --------------------------------------------------------
 
     scenario: {
-
       inputs:
         scenarioInputs,
 
-      changes:
-
-        changes,
+      changes,
 
       derived:
         createDerivedFeatures(
-          scenarioSnapshot,
           scenario?.prediction,
+          scenarioSnapshot,
         ),
 
       prediction:
         scenarioPrediction,
     },
-
 
     // --------------------------------------------------------
     // PREDICTIONS
@@ -1108,13 +1044,11 @@ export async function apiAnalyzeWhatIf(
     scenario_prediction:
       scenarioPrediction,
 
-
     // --------------------------------------------------------
     // DELTAS
     // --------------------------------------------------------
 
     deltas: {
-
       cost_diff_pct:
         costDiff,
 
